@@ -1,9 +1,14 @@
+:root {
+  --main: rgb(61, 193, 171);
+}
+
 body {
   margin: 0;
   height: 100vh;
-  background: linear-gradient(to bottom right, #cce0ff, #ffffff);
   font-family: sans-serif;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .popup {
@@ -40,4 +45,37 @@ body {
 
 .popup button:hover {
   background: #c9302c;
+}
+
+#desktop {
+  flex-grow: 1;
+  background: linear-gradient(to bottom right, #cce0ff, #ffffff);
+}
+
+#nav-bar {
+  height: 3rem;
+  background-color: var(--main);
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  img {
+    margin: 0 1rem;
+    height: 80%;
+    opacity: 0.8;
+    aspect-ratio: 1/1;
+  }
+  .text {
+    background-color: whitesmoke;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    p {
+      color: grey;
+      margin-left: 0.5rem;
+      margin-right: 7rem;
+    }
+  }
 }

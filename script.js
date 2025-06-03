@@ -44,7 +44,7 @@ function createPopup() {
     </div>
   `;
 
-  document.body.appendChild(popup);
+  document.getElementById("desktop").appendChild(popup);
 }
 
 setInterval(createPopup, 2000);
