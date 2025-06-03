@@ -7,8 +7,17 @@ body {
   height: 100vh;
   font-family: sans-serif;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+}
+
+.close-button {
+  cursor: pointer;
+  margin-left: auto !important;
+}
+
+.popup-container {
+  height: 0;
+  width: 0;
+  overflow: visible;
 }
 
 .popup {
@@ -18,42 +27,52 @@ body {
   background: white;
   border: 2px solid black;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
-}
 
-.popup-header {
-  background: #0078d7;
-  color: white;
-  padding: 6px;
-  font-weight: bold;
-  font-size: 14px;
-}
+  .popup-header {
+    background: #0078d7;
+    color: white;
+    padding: 6px;
+    display: flex;
+    flex-direction: row;
 
-.popup-content {
-  padding: 10px;
-  font-size: 14px;
-}
+    p {
+      margin: 0;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
 
-.popup button {
-  background: #d9534f;
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  font-size: 12px;
-  margin-top: 10px;
-  cursor: pointer;
-}
+  .popup-content {
+    padding: 10px;
+    font-size: 14px;
+  }
 
-.popup button:hover {
-  background: #c9302c;
+  button {
+    background: #d9534f;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-top: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: #c9302c;
+    }
+  }
 }
 
 #desktop {
-  flex-grow: 1;
+  height: 100vh;
+  width: 100vw;
   background: linear-gradient(to bottom right, #cce0ff, #ffffff);
 }
 
 #nav-bar {
+  position: fixed;
+  bottom: 0;
   height: 3rem;
+  width: 100vw;
   background-color: var(--main);
   z-index: 1000;
   display: flex;
@@ -66,12 +85,14 @@ body {
     opacity: 0.8;
     aspect-ratio: 1/1;
   }
+
   .text {
     background-color: whitesmoke;
     height: 80%;
     display: flex;
     flex-direction: row;
     align-items: center;
+
     p {
       color: grey;
       margin-left: 0.5rem;
