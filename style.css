@@ -79,12 +79,46 @@ body {
   }
 }
 
+
 /* desktop ui */
 #nav-bar {
   margin-top: -3rem;
   position: fixed;
   height: 3rem;
   width: 900px;
+  background-color: var(--main);
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  img {
+    margin: 0 1rem;
+    height: 80%;
+    opacity: 0.8;
+    aspect-ratio: 1/1;
+  }
+
+  .text {
+    background-color: whitesmoke;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    p {
+      color: grey;
+      margin-left: 0.5rem;
+      margin-right: 7rem;
+    }
+  }
+}
+
+#nav-bar {
+  position: fixed;
+  bottom: 0;
+  height: 3rem;
+  width: 100vw;
   background-color: var(--main);
   z-index: 1000;
   display: flex;
