@@ -114,7 +114,6 @@ body {
   }
 }
 
-<<<<<<< Updated upstream
 
 /* desktop ui */
 #nav-bar {
@@ -124,7 +123,7 @@ body {
   width: 900px;
   background-color: var(--main);
   z-index: 1000;
-=======
+
 .popup-header {
   background: #0078d7;
   color: white;
@@ -161,7 +160,7 @@ body {
 }
 
 .zoom-content {
->>>>>>> Stashed changes
+
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -173,7 +172,6 @@ body {
   grid-gap: 5px;
   margin-top: 10px;
 }
->>>>>>> Stashed changes
 
     p {
       color: grey;
@@ -182,8 +180,7 @@ body {
     }
   }
 }
-<<<<<<< Updated upstream
-=======
+
 
 .video-box .face {
   font-size: 20px;
