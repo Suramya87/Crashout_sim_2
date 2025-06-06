@@ -31,9 +31,44 @@ body {
   overflow: hidden;
 }
 
+<<<<<<< Updated upstream
 .close-button {
   cursor: pointer;
   margin-left: auto !important;
+=======
+/* Navigation bar (desktop UI) */
+#nav-bar {
+  margin-top: -3rem;
+  position: fixed;
+  height: 3rem;
+  width: 900px;
+  background-color: var(--main);
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#nav-bar img {
+  margin: 0 1rem;
+  height: 80%;
+  opacity: 0.8;
+  aspect-ratio: 1 / 1;
+}
+
+#nav-bar .text {
+  background-color: whitesmoke;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#nav-bar .text p {
+  color: grey;
+  margin-left: 0.5rem;
+  margin-right: 7rem;
+>>>>>>> Stashed changes
 }
 
 /* Popups */
@@ -42,6 +77,10 @@ body {
   width: 0;
   overflow: visible;
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 .popup {
   position: absolute;
   width: 250px;
@@ -84,6 +123,7 @@ body {
   }
 }
 
+<<<<<<< Updated upstream
 
 /* desktop ui */
 #nav-bar {
@@ -93,10 +133,49 @@ body {
   width: 900px;
   background-color: var(--main);
   z-index: 1000;
+=======
+.popup-header {
+  background: #0078d7;
+  color: white;
+  padding: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+}
+
+.popup-content {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.popup button {
+  background: #d9534f;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.popup button:hover {
+  background: #c9302c;
+}
+
+/* Zoom popup specifics */
+.popup.zoom {
+  width: 380px;
+  height: 280px;
+}
+
+.zoom-content {
+>>>>>>> Stashed changes
   display: flex;
   flex-direction: row;
   align-items: center;
 
+<<<<<<< Updated upstream
   img {
     margin: 0 1rem;
     height: 80%;
@@ -110,6 +189,14 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+=======
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 5px;
+  margin-top: 10px;
+}
+>>>>>>> Stashed changes
 
     p {
       color: grey;
@@ -118,3 +205,62 @@ body {
     }
   }
 }
+<<<<<<< Updated upstream
+=======
+
+.video-box .face {
+  font-size: 20px;
+}
+
+.video-box .reaction {
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  font-size: 16px;
+}
+
+.controls {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.zoom-content button {
+  background: #0078d7;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.zoom-content button:hover {
+  background: #005fa3;
+}
+
+/* Hidden utility class */
+.hidden {
+  display: none !important;
+}
+
+#crashout-bar-container {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 20px;
+  border: 1px solid #333;
+  background: #eee;
+  z-index: 999;
+}
+
+#crashout-bar {
+  height: 100%;
+  width: 0%;
+  background-color: green;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+>>>>>>> Stashed changes
