@@ -31,11 +31,6 @@ body {
   overflow: hidden;
 }
 
-<<<<<<< Updated upstream
-.close-button {
-  cursor: pointer;
-  margin-left: auto !important;
-=======
 /* Navigation bar (desktop UI) */
 #nav-bar {
   margin-top: -3rem;
@@ -68,7 +63,6 @@ body {
   color: grey;
   margin-left: 0.5rem;
   margin-right: 7rem;
->>>>>>> Stashed changes
 }
 
 /* Popups */
@@ -77,10 +71,7 @@ body {
   width: 0;
   overflow: visible;
 }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 .popup {
   position: absolute;
   width: 250px;
@@ -174,22 +165,8 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
 
-<<<<<<< Updated upstream
-  img {
-    margin: 0 1rem;
-    height: 80%;
-    opacity: 0.8;
-    aspect-ratio: 1/1;
-  }
-
-  .text {
-    background-color: whitesmoke;
-    height: 80%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-=======
 .video-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -263,4 +240,3 @@ body {
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
->>>>>>> Stashed changes

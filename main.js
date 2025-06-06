@@ -1,5 +1,9 @@
 import { popupTask } from './tasks/popupTask.js';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+import { zoomTask } from './tasks/zoomTask.js';
+>>>>>>> Stashed changes
 =======
 import { zoomTask } from './tasks/zoomTask.js';
 >>>>>>> Stashed changes
@@ -15,7 +19,11 @@ let pointCap = difficultyRatings[currentRating];
 let activePoints = 0;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 const taskPool = [popupTask];
+=======
+const taskPool = [popupTask, zoomTask];
+>>>>>>> Stashed changes
 =======
 const taskPool = [popupTask, zoomTask];
 >>>>>>> Stashed changes
