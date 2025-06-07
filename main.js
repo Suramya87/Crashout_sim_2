@@ -38,7 +38,7 @@ function updateCrashoutBar() {
 
 function endGame() {
   gameOver = true;
-  alert('💥 Game Over: Crashout reached!');
+  alert('Game Over');
   clearInterval(spawnInterval);
   clearInterval(stressInterval);
 }
@@ -68,6 +68,6 @@ const stressInterval = setInterval(() => {
   }
 
   updateCrashoutBar();
-}, 100); // Adjust speed here
+}, 400); // Adjust speed here
 
 const spawnInterval = setInterval(trySpawnTask, 2000);
