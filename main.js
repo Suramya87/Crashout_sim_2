@@ -1,5 +1,5 @@
 import { popupTask } from './tasks/popupTask.js';
-import { zoomTask } from './tasks/zoomTask.js';
+import { zoomTask } from './tasks/zoom.js';
 
 const difficultyRatings = {
   A: 10,
