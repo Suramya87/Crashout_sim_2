@@ -2,24 +2,39 @@ import { popupTask } from './tasks/popupTask.js';
 import { zoomTask } from './tasks/zoom.js';
 import { doMathTask } from './tasks/doMathTask.js';
 
-
 const difficultyRatings = {
+  D: 4,
+  C: 6,
+  B: 8,
   A: 10,
-  B: 7,
-  C: 4
+  S: 12
 };
 
-let currentRating = 'A';
+const difficultyOrder = ['D', 'C', 'B', 'A', 'S'];
+
+let currentDifficultyIndex = 0;
+let currentRating = difficultyOrder[currentDifficultyIndex];
 let pointCap = difficultyRatings[currentRating];
+
 let activePoints = 0;
 
 const taskPool = [popupTask, zoomTask, doMathTask];
+const totalTasksToComplete = parseInt(prompt("How many tasks to complete to win?"), 10) || 10;
+let completedTasks = 0;
 
 let crashoutLevel = 0;
 const crashoutMax = 100;
 let gameOver = false;
 
+// UI Elements
 const crashoutBar = document.getElementById('crashout-bar');
+const tasksLeftDisplay = document.getElementById('tasks-left');
+const difficultyDisplay = document.getElementById('difficulty-level');
+
+function updateUI() {
+  tasksLeftDisplay.textContent = `Tasks Left: ${totalTasksToComplete - completedTasks}`;
+  difficultyDisplay.textContent = `Difficulty Level: ${currentRating}`;
+}
 
 function updateCrashoutBar() {
   const percentage = (crashoutLevel / crashoutMax) * 100;
@@ -34,15 +49,16 @@ function updateCrashoutBar() {
   }
 
   if (crashoutLevel >= crashoutMax) {
-    endGame();
+    endGame(false);
   }
 }
 
-function endGame() {
+function endGame(victory) {
   gameOver = true;
-  alert('Game Over');
   clearInterval(spawnInterval);
   clearInterval(stressInterval);
+  clearInterval(difficultyInterval);
+  alert(victory ? 'You win! All tasks completed.' : 'Game Over');
 }
 
 function trySpawnTask() {
@@ -55,11 +71,19 @@ function trySpawnTask() {
 
     task.spawn(() => {
       activePoints -= task.cost;
+      completedTasks++;
+
+      // Check for win
+      if (completedTasks >= totalTasksToComplete) {
+        endGame(true);
+      }
+
+      updateUI();
     });
   }
 }
 
-// Slow stress logic (fills if active tasks, drains if none)
+// Gradual stress logic
 const stressInterval = setInterval(() => {
   if (gameOver) return;
 
@@ -70,6 +94,30 @@ const stressInterval = setInterval(() => {
   }
 
   updateCrashoutBar();
-}, 400); // Adjust speed here
+}, 400);
 
+// Try to spawn a task periodically
 const spawnInterval = setInterval(trySpawnTask, 2000);
+
+// Automatically raise difficulty every few tasks
+const difficultyInterval = setInterval(() => {
+  if (gameOver) return;
+
+  // Increase difficulty every X completed tasks
+  const tasksPerLevel = Math.ceil(totalTasksToComplete / (difficultyOrder.length - 1));
+
+  const newIndex = Math.min(
+    Math.floor(completedTasks / tasksPerLevel),
+    difficultyOrder.length - 1
+  );
+
+  if (newIndex !== currentDifficultyIndex) {
+    currentDifficultyIndex = newIndex;
+    currentRating = difficultyOrder[currentDifficultyIndex];
+    pointCap = difficultyRatings[currentRating];
+    updateUI();
+  }
+}, 1000); // Check every second
+
+// Initial UI setup
+updateUI();
