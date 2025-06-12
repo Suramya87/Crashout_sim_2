@@ -1,6 +1,6 @@
 export const doMathTask = {
   name: "Do Math",
-  cost: 8,
+  cost: 6,
 
   spawn(onClose) {
     const $screen = $("#screen");
