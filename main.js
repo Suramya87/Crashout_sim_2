@@ -24,7 +24,7 @@ const totalTasksToComplete = parseInt(prompt("How many tasks to complete to win?
 let completedTasks = 0;
 
 // Timer setup
-let timeLimit = parseInt(prompt("How many seconds do you want to play? (Leave blank for default: 3s per task)"), 10);
+let timeLimit = parseInt(prompt("How many seconds do you want to play? (Leave blank for default: 5s per task)"), 10);
 if (isNaN(timeLimit)) {
   timeLimit = totalTasksToComplete * 5; // default: 5 seconds per task
 }
