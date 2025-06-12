@@ -187,7 +187,9 @@ body {
 .controls {
   margin-top: 10px;
   display: flex;
-  gap: 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 .zoom-content button {

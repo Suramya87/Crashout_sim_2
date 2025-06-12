@@ -12,7 +12,7 @@ export const zoomTask = {
     const top = Math.random() * ($screen.height() - 300);
     const left = Math.random() * ($screen.width() - 400);
 
-    const participantCount = Math.floor(Math.random() * 5); // 0 to 4 (total: 1–5 participants)
+    const participantCount = Math.floor(Math.random() * 3) + 2; // 0 to 4 (total: 1–5 participants)
 
     function getRandomColor() {
       const colors = ['#FF8A80', '#EA80FC', '#8C9EFF', '#80D8FF', '#A7FFEB', '#CCFF90', '#FFD180', '#FF9E80'];
@@ -45,6 +45,10 @@ export const zoomTask = {
             <div class="meeting hidden">
               <div class="video-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
                 ${otherParticipants}
+                <div class="video-box player hidden" style="background-color: gray; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; position: relative;">
+                  YOU
+                  <div class="reaction" style="position: absolute; bottom: 4px; right: 6px;">👍</div>
+                </div>
               </div>
               <div class="controls">
                 <button class="thumbs-up-btn">👍 React</button>
@@ -57,40 +61,50 @@ export const zoomTask = {
     `);
 
     let playerReacted = false;
-    let reactionsNeeded = participantCount + 1;
     let reactionsDone = 0;
 
     function checkAllReacted() {
-      if (reactionsDone >= reactionsNeeded) {
+      if (playerReacted && reactionsDone == participantCount) {
         $popup.find(".leave-btn").removeClass("hidden");
+      }
+      if (reactionsDone == 0) {
+        setTimeout(tryReaction, 2000 + Math.random() * 4000);
       }
     }
 
     $popup.find(".join-btn").on("click", () => {
       $popup.find(".pre-meeting").addClass("hidden");
       $popup.find(".meeting").removeClass("hidden");
+      setTimeout(tryReaction, 2000 + Math.random() * 4000);
+    });
 
+    function tryReaction() {
+      if (playerReacted) {
+        setTimeout(tryReaction, 2000 + Math.random() * 4000);
+        return;
+      }
       $popup.find(".video-box.participant").each((_, box) => {
         setTimeout(() => {
           $(box).find(".reaction").fadeIn(400);
           reactionsDone++;
           checkAllReacted();
-        }, 2000 + Math.random() * 4000);
+          setTimeout(() => {
+            $(box).find(".reaction").fadeOut(400);
+            reactionsDone--;
+            checkAllReacted();
+          }, 3000 + Math.random() * 2000);
+        }, Math.random() * 2000);
       });
-    });
+     }
 
     $popup.find(".thumbs-up-btn").on("click", () => {
       if (!playerReacted) {
-        const playerBox = $(`
-          <div class="video-box player" style="background-color: gray; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; position: relative;">
-            YOU
-            <div class="reaction" style="position: absolute; bottom: 4px; right: 6px;">👍</div>
-          </div>
-        `);
-        $popup.find(".video-grid").append(playerBox);
+        $popup.find(".video-grid .player").removeClass("hidden");
         playerReacted = true;
-        reactionsDone++;
         checkAllReacted();
+      } else {
+        $popup.find(".video-grid .player").addClass("hidden");
+        playerReacted = false;
       }
     });
 
