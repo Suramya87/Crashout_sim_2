@@ -54,8 +54,10 @@ function updateCrashoutBar() {
   if (percentage < 33) {
     crashoutBar.style.backgroundColor = 'green';
   } else if (percentage < 66) {
+    $("h1.warning").addClass("hidden");
     crashoutBar.style.backgroundColor = 'yellow';
   } else {
+    $("h1.warning").removeClass("hidden");
     crashoutBar.style.backgroundColor = 'red';
   }
 
