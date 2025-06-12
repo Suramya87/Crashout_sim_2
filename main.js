@@ -61,6 +61,8 @@ function updateCrashoutBar() {
     crashoutBar.style.backgroundColor = 'red';
   }
 
+  $("#computer").css("animation-duration", `${10- percentage/100 * 9.99}s`);
+
   if (crashoutLevel >= crashoutMax) {
     endGame('crash');
   }
