@@ -1,19 +1,41 @@
+let zoomTaskActive = false;
+
 export const zoomTask = {
   name: "Zoom Meeting",
-  cost: 3,
+  cost: 4,
 
   spawn(onClose) {
-    const $screen = $("#screen");
+    if (zoomTaskActive) return;
+    zoomTaskActive = true;
 
+    const $screen = $("#screen");
     const top = Math.random() * ($screen.height() - 300);
     const left = Math.random() * ($screen.width() - 400);
+
+    const participantCount = Math.floor(Math.random() * 5); // 0 to 4 (total: 1–5 participants)
+
+    function getRandomColor() {
+      const colors = ['#FF8A80', '#EA80FC', '#8C9EFF', '#80D8FF', '#A7FFEB', '#CCFF90', '#FFD180', '#FF9E80'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function getRandomInitial() {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      return letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
+    const otherParticipants = [...Array(participantCount)].map((_, i) => `
+      <div class="video-box participant" data-id="${i}" style="background-color: ${getRandomColor()}; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; position: relative;">
+        ${getRandomInitial()}
+        <div class="reaction" style="display:none; position: absolute; bottom: 4px; right: 6px;">👍</div>
+      </div>
+    `).join("");
 
     const $popup = $(`
       <div class="popup-container">
         <div class="popup zoom" style="top: ${top}px; left: ${left}px;">
           <div class="popup-header">
             <p>Zoom Meeting</p>
-            <p class="close-button">X</p>
           </div>
           <div class="popup-content zoom-content">
             <div class="pre-meeting">
@@ -21,13 +43,8 @@ export const zoomTask = {
               <button class="join-btn">Join</button>
             </div>
             <div class="meeting hidden">
-              <div class="video-grid">
-                ${[...Array(5)].map((_, i) => `
-                  <div class="video-box" data-id="${i}">
-                    <div class="face">🙂</div>
-                    <div class="reaction" style="display:none;">👍</div>
-                  </div>
-                `).join("")}
+              <div class="video-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                ${otherParticipants}
               </div>
               <div class="controls">
                 <button class="thumbs-up-btn">👍 React</button>
@@ -40,46 +57,53 @@ export const zoomTask = {
     `);
 
     let playerReacted = false;
+    let reactionsNeeded = participantCount + 1;
+    let reactionsDone = 0;
 
-    // Join button
+    function checkAllReacted() {
+      if (reactionsDone >= reactionsNeeded) {
+        $popup.find(".leave-btn").removeClass("hidden");
+      }
+    }
+
     $popup.find(".join-btn").on("click", () => {
       $popup.find(".pre-meeting").addClass("hidden");
       $popup.find(".meeting").removeClass("hidden");
 
-      // Simulate others reacting at random times
-      $popup.find(".video-box").each((_, box) => {
+      $popup.find(".video-box.participant").each((_, box) => {
         setTimeout(() => {
-          $(box).find(".reaction").fadeIn(300);
-        }, 500 + Math.random() * 2000);
+          $(box).find(".reaction").fadeIn(400);
+          reactionsDone++;
+          checkAllReacted();
+        }, 2000 + Math.random() * 4000);
       });
     });
 
-    // Player reaction
     $popup.find(".thumbs-up-btn").on("click", () => {
       if (!playerReacted) {
-        const playerBox = $('<div class="video-box player"><div class="face">🧍</div><div class="reaction">👍</div></div>');
+        const playerBox = $(`
+          <div class="video-box player" style="background-color: gray; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; position: relative;">
+            YOU
+            <div class="reaction" style="position: absolute; bottom: 4px; right: 6px;">👍</div>
+          </div>
+        `);
         $popup.find(".video-grid").append(playerBox);
         playerReacted = true;
-        $popup.find(".leave-btn").removeClass("hidden");
+        reactionsDone++;
+        checkAllReacted();
       }
     });
 
-    // Leave button
-    $popup.find(".leave-btn").on("click", () => {
+    function cleanupAndClose() {
       $popup.remove();
+      zoomTaskActive = false;
       if (onClose) onClose();
-    });
+    }
 
-    // Manual close
-    $popup.find(".close-button").on("click", () => {
-      $popup.remove();
-      if (onClose) onClose();
-    });
+    $popup.find(".leave-btn").on("click", cleanupAndClose);
+    // Removed .close-button entirely — not even in DOM
 
-    $popup.draggable({
-      handle: ".popup-header"
-    });
-
+    $popup.draggable({ handle: ".popup-header" });
     $screen.append($popup);
   },
 };

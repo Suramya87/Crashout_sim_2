@@ -1,6 +1,7 @@
 import { popupTask } from './tasks/popupTask.js';
 import { zoomTask } from './tasks/zoom.js';
 import { doMathTask } from './tasks/doMathTask.js';
+import { puzzlePopup } from './tasks/puzzlePopup.js';
 
 const difficultyRatings = {
   D: 4,
@@ -18,14 +19,14 @@ let pointCap = difficultyRatings[currentRating];
 
 let activePoints = 0;
 
-const taskPool = [popupTask, zoomTask, doMathTask];
+const taskPool = [popupTask, zoomTask, doMathTask, puzzlePopup];
 const totalTasksToComplete = parseInt(prompt("How many tasks to complete to win?"), 10) || 10;
 let completedTasks = 0;
 
 // Timer setup
 let timeLimit = parseInt(prompt("How many seconds do you want to play? (Leave blank for default: 3s per task)"), 10);
 if (isNaN(timeLimit)) {
-  timeLimit = totalTasksToComplete * 3; // default: 3 seconds per task
+  timeLimit = totalTasksToComplete * 5; // default: 5 seconds per task
 }
 let timeLeft = timeLimit;
 
@@ -64,7 +65,6 @@ function updateCrashoutBar() {
 
 function endGame(reason) {
   gameOver = true;
-  clearInterval(spawnInterval);
   clearInterval(stressInterval);
   clearInterval(difficultyInterval);
   clearInterval(timerInterval);
@@ -72,22 +72,36 @@ function endGame(reason) {
   if (reason === 'win') {
     alert('You win! All tasks completed.');
   } else if (reason === 'time') {
-    alert("You survived! Time's up.");
-  } else {
-    alert('Game Over');
+    alert("You survived! but Time's up.");
+  } else if (reason === 'crash') {
+    alert('Game Over! You crashed out.');
   }
 }
 
-function trySpawnTask() {
+// Dynamic Task Spawning Based on Cost
+function dynamicSpawn() {
   if (gameOver) return;
 
   const task = taskPool[Math.floor(Math.random() * taskPool.length)];
+  const cost = task.cost;
 
-  if (activePoints + task.cost <= pointCap) {
-    activePoints += task.cost;
+  const baseDelay = 1000; // baseline delay for cost 5
+  const delayFactor = 250; // 250ms per cost level difference
+  let delay;
+
+  if (cost <= 5) {
+    delay = baseDelay - (5 - cost) * delayFactor;
+  } else {
+    delay = baseDelay + (cost - 5) * delayFactor;
+  }
+
+  delay = Math.max(300, delay); // prevent extremely fast spawns
+
+  if (activePoints + cost <= pointCap) {
+    activePoints += cost;
 
     task.spawn(() => {
-      activePoints -= task.cost;
+      activePoints -= cost;
       completedTasks++;
 
       if (completedTasks >= totalTasksToComplete) {
@@ -97,23 +111,25 @@ function trySpawnTask() {
       updateUI();
     });
   }
+
+  setTimeout(dynamicSpawn, delay);
 }
 
 // Stress logic
 const stressInterval = setInterval(() => {
   if (gameOver) return;
 
-  crashoutLevel = activePoints > 0
-    ? Math.min(crashoutMax, crashoutLevel + 0.5)
+  const hasActiveTask = document.querySelectorAll('.popup-container').length > 0;
+
+  crashoutLevel = hasActiveTask
+    ? Math.min(crashoutMax, crashoutLevel + 0.25)
     : Math.max(0, crashoutLevel - 0.5);
 
   updateCrashoutBar();
-}, 400);
+}, 100);
 
-// Spawn tasks
-const spawnInterval = setInterval(trySpawnTask, 2000);
 
-// Difficulty scaling
+// Difficulty scaling logic
 const difficultyInterval = setInterval(() => {
   if (gameOver) return;
 
@@ -134,6 +150,7 @@ const difficultyInterval = setInterval(() => {
 // Countdown timer
 const timerInterval = setInterval(() => {
   if (gameOver) return;
+
   timeLeft--;
   updateUI();
 
@@ -142,5 +159,6 @@ const timerInterval = setInterval(() => {
   }
 }, 1000);
 
-// Init UI
+// Start everything
 updateUI();
+dynamicSpawn();
