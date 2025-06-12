@@ -2,6 +2,7 @@ import { popupTask } from './tasks/popupTask.js';
 import { zoomTask } from './tasks/zoom.js';
 import { doMathTask } from './tasks/doMathTask.js';
 import { puzzlePopup } from './tasks/puzzlePopup.js';
+import { emailTask } from './tasks/emailTask.js';
 
 const difficultyRatings = {
   D: 4,
@@ -19,7 +20,7 @@ let pointCap = difficultyRatings[currentRating];
 
 let activePoints = 0;
 
-const taskPool = [popupTask, zoomTask, doMathTask, puzzlePopup];
+const taskPool = [popupTask, zoomTask, doMathTask, puzzlePopup, emailTask];
 const totalTasksToComplete = parseInt(prompt("How many tasks to complete to win?"), 10) || 10;
 let completedTasks = 0;
 

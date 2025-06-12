@@ -116,6 +116,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .close-button {
+    cursor: pointer;
+  }
 }
 
 .popup-content {
@@ -204,6 +207,17 @@ body {
 
 .zoom-content button:hover {
   background: #005fa3;
+}
+
+.email {
+  height: 250px;
+  width: 300px;
+  .popup-content {
+    width: 100%;
+    height: 90%;
+    overflow: auto;
+    box-sizing: border-box;
+  }
 }
 
 /* Utility */
